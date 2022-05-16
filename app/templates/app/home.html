@@ -1,0 +1,54 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<section align="center" style="margin-top:100px;">
+  <form method="GET" action="">
+    {{myFilter.form}}
+    <button type="submit">Search</button>
+    </form>
+  
+</section>
+
+<section  style="margin-top:50px;" class="products">
+   <div class="products-box">
+        <div class="products-box-grid" style="padding: 60px 0px!important;">
+            {% for item in items %}
+            <div data-scroll class="dash__pad-1 dash__box dash__box--shadow dash__box--radius dash__box--bg-white u-s-m-b-30" style="box-shadow:0px 0px 10px 5px #ededed; border-radius: 15px;">
+                <div class="products-box-grid-card-img">
+                    <img class="products-box-grid-card-img" src="{{item.imageURL}}" alt="could not load image"/>
+                </div>
+                <div class="products-box-grid-card-name">
+                   <p id="h6">{{item.name}}</p>
+                   <hr>
+		                  <p id="price"> {{item.author}}</p>
+                    <div style="background-color: rgba(255,255,255,0);">
+                      <a href="{% url 'book-detail' item.id %}" class="btn btn-pri" target="_blank">
+                        View
+                      </a>
+                      </div>
+                </div>
+                {% if item.quantity == 0 %}
+                <div align="center">
+                  <label>Currently out of stock</label>
+                </div>
+              {% else %}
+              {% if user_profile.exists %}
+                <div class="products-box-grid-card-btn">
+                   <a href="{{item.get_add_to_cart_url}}" class="btn btn-sec" id="button-1">Add</a>
+                   <a href="{{item.get_remove_from_cart_url}}" class="btn btn-pri" id="button-1">Remove</a>
+               </div>
+               {% else %}
+               <p align="center" id="price">unauthorized to borrow book</p>
+               {% endif %}
+               {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+
+     {% endblock %}

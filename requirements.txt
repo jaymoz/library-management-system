@@ -1,0 +1,8 @@
+asgiref==3.5.0
+Django==4.0.4
+django-bootstrap-form==3.4
+django-crispy-forms==1.14.0
+django-filter==21.1
+django-multiselectfield==0.1.12
+Pillow==9.1.0
+sqlparse==0.4.2

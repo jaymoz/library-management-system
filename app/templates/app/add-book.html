@@ -1,0 +1,83 @@
+{% extends 'app/dashboard_link.html' %}
+{% load static %}
+{% block content %}
+       
+<section  style="margin-top: 100px; margin-bottom:100px;"> 
+    <div class="u-s-p-b-60">
+        <div class="section__content">
+            <div class="dash">
+                <div class="container">
+                    <div class="row">
+                        {% include 'app/dash-include.html' %}                    
+                        <div class="col-lg-9 col-md-12">
+                            <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white">
+                                <div class="dash__pad-2">
+                                    <h1 class="dash__h1 u-s-m-b-14">Add a new book</h1>
+
+                                    <span class="dash__text u-s-m-b-30">Please fill in valid details</span>
+                                    <form method="POST" enctype="multipart/form-data" class="dash-address-manipulation">
+                                        {% csrf_token %}
+                                        <div class="gl-inline">
+                                            <div class="u-s-m-b-30">
+
+                                                <label class="gl-label" for="address-fname">Name *</label>
+
+                                                {{form.name}}
+                                            </div>
+                                            <div class="u-s-m-b-30">
+
+                                                <label class="gl-label" for="address-lname">Author *</label>
+
+                                                {{form.author}}
+                                        </div>
+                                    </div>
+                                            <div class="u-s-m-b-30">
+
+                                                <label class="gl-label" for="address-phone">Isbn Number *</label>
+
+                                                {{form.isbn}}
+                                            </div>
+                                            <div class="u-s-m-b-30">
+
+                                                <label class="gl-label" for="address-street"> Category *</label>
+
+                                               {{form.category}}
+                                        </div>
+                                        <div class="u-s-m-b-30">
+
+                                            <label class="gl-label" for="address-street"> Description *</label>
+
+                                           {{form.description}}
+                                    </div>
+                                        <div class="u-s-m-b-30">
+
+                                            <label class="gl-label" for="address-street"> Book Cover Image *</label>
+
+                                           {{form.book_cover_img}}
+                                    </div>
+                                    <div class="u-s-m-b-30">
+
+                                        <label class="gl-label" for="address-street"> Quantity available *</label>
+
+                                       {{form.quantity}}
+                                </div>
+                                <div class="u-s-m-b-30">
+
+                                    <label class="gl-label" for="address-street"> Slug Field *</label>
+
+                                   {{form.slug}}
+                            </div>
+
+                                        <button class="btn btn--e-brand-b-2" type="submit">ADD BOOk</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </section>
+
+{% endblock %}

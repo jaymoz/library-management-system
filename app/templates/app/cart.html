@@ -1,0 +1,99 @@
+{% extends 'app/checkout_base.html' %}
+{% load static %}
+{% block content %}
+<body>
+        <div class="app-content">
+            <div class="u-s-p-y-60">
+
+            <div class="u-s-p-b-60">
+                <!--====== Section Content ======-->
+                <div class="section__content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 u-s-m-b-30">
+                                <div class="msg table-responsive">
+					 <a href="{% url 'home' %}" class="btn btn-success">add more books</a>
+                                    <table class="table-p">
+                                        <tbody>
+                                            {% for order_item in order.books.all %}
+                                            <tr>
+                                                <td>
+                                                    <div class="table-p__box">
+                                                        <div class="table-p__img-wrap">
+
+                                                            <img class="u-img-fluid" src="{{order_item.book.imageURL}}" alt=""></div>
+                                                        <div class="table-p__info">
+
+                                                            <span class="table-p__name">
+                                                                    <p><b>{{ order_item.book.name }}</b></p>
+                                                                </span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="table-p__input-counter-wrap">
+                                                        <div class="input-counter">
+
+                                                            <a href="{% url 'remove-single-item-from-cart-page' order_item.book.slug %}" style="color:red;" class="input-counter__minus fa fa-minus"></a>
+
+                                                            <span class="input-counter__text input-counter--text-primary-style" style="vertical-align:middle; padding:11.5px 0px;">{{ order_item.quantity }}</span>
+
+                                                            <a href="{% url 'add-to-cart-page' order_item.book.slug %}" style="color:green;" class="input-counter__plus fa fa-plus"></a></div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="table-p__del-wrap">
+
+                                                        <a  class="fa fa-trash table-p__delete-link" href="{% url 'remove-from-cart-page' order_item.book.slug %}"></a></div>
+                                                </td>
+                                            </tr>
+                                            {% empty %}
+                                            <div class="col-lg-12 col-md-12 u-s-m-b-30">
+                                                    <h1 class="gl-h1">YOUR CART IS EMPTY</h1>
+                                            </div>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <!--====== End - Section Content ======-->
+            </div>
+            
+            {% if is_empty > 0%}
+            <div class="u-s-p-b-60">
+                <div class="section__content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 u-s-m-b-30">
+                                <form class="f-cart" method="POST">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-lg-6 col-md-6 u-s-m-b-30">
+                                            <div class="msg f-cart__pad-box">
+                                                <div>
+
+                                                    <button type="submit" class="btn btn--e-brand-b-2">PLACE ORDER</button></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--====== End - Section Content ======-->
+            </div>
+            {% endif %}
+
+        </div>
+        </div>
+
+    {% include  'app/footer.html' %}
+    </div>
+    </body>
+
+
+{% endblock content%}
+    

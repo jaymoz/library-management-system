@@ -1,0 +1,107 @@
+<div class="col-lg-3 col-md-12">
+    <div class="dash__box dash__box--bg-white dash__box--shadow u-s-m-b-30">
+        <div class="dash__pad-1">
+
+            <span class="dash__text u-s-m-b-16"><b>Hey! {{request.user}} </b></span>
+            <ul class="dash__f-list">
+                <li>
+
+                    <a class="dash-active" href="{% url 'dashboard' %}">Dashbard</a></li>
+                    <li>
+
+                        <a class="dash-active" href="{% url 'profile' %}">Profile</a></li>
+                    <li>
+                        {% if request.user.is_staff %}
+                    <li>
+                        <a class="dash-active" href="{% url 'add-new-book' %}">Add Book</a>
+                    </li>
+                    {% endif %}
+                    <li>
+
+                        <a class="dash-active" href="{% url 'allBooks' %}">View all Books</a>
+                    </li>
+                    {% if request.user.is_staff %}
+                <li>
+                    <!-- takes you to all the orders where u can filter them -->
+                    <a class="dash-active" href="{% url 'myOrders' %}">My Orders</a></li>
+                    <li>
+
+                        <a class="dash-active" href="{% url 'myIssued' %}">My Issued Books</a>
+                    </li>
+                    <!-- <li>
+
+                        <a class="dash-active" href="{% url 'myExpired' %}">My Expired Orders</a>
+                    </li> -->
+                    
+                    <li>
+
+                        <a class="dash-active" href="{% url 'AllIssued' %}">All Issued Books</a>
+                    </li>
+                    <li>
+
+                        <a class="dash-active" href="{% url 'allOrders' %}">All Orders</a>
+                    </li>
+                    <!-- <li>
+
+                        <a class="dash-active" href="{% url 'allExpired' %}">All Expired Orders</a>
+                    </li> -->
+                    {% else %}
+                    <li>
+                    <a class="dash-active" href="{% url 'myOrders' %}">My Orders</a></li>
+                    <li>
+
+                        <a class="dash-active" href="{% url 'myIssued' %}">My Issued Books</a>
+                    </li>
+                    <!-- <li>
+
+                        <a class="dash-active" href="{% url 'myExpired' %}">My Expired Orders</a>
+                    </li> -->
+                    {% endif %}
+                <li>
+            </ul>
+        </div>
+    </div>
+    <div class="dash__box dash__box--bg-white dash__box--shadow dash__box--w">
+        <div class="dash__pad-1">
+            <ul class="dash__w-list">
+                <li>
+                    <div class="dash__w-wrap">
+
+                        <span class="dash__w-icon dash__w-icon-style-1"><i class="fa fa-shopping-cart"></i></span>
+
+                        <span class="dash__w-text">{{total_orders}}</span>
+
+                        <span class="dash__w-name">Orders Placed</span></div>
+                </li>
+                <li>
+                    <div class="dash__w-wrap">
+
+                        <span class="dash__w-icon dash__w-icon-style-3"><i class="fa fa-truck"></i></i></span>
+
+                        <span class="dash__w-text">{{accepted}}</span>
+
+                        <span class="dash__w-name">Accepted</span></div>
+                </li>
+                <li>
+                    <div class="dash__w-wrap">
+
+                        <span class="dash__w-icon dash__w-icon-style-3"><i style="color:green;" class="fa fa-check"></i></i></span>
+
+                        <span class="dash__w-text">{{processing}}</span>
+
+                        <span class="dash__w-name">Processing</span></div>
+                </li>
+                <li>
+                    <div class="dash__w-wrap">
+
+                    <i style= "color: red;" class="fa fa-times"></i>
+
+                        <span class="dash__w-text">{{cancelled}}</span>
+
+                        <span class="dash__w-name">Cancelled</span></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</div>
