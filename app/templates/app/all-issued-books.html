@@ -37,6 +37,11 @@
                                         </div>
                                     </div>
                                     </form>
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        <button type="submit" style="border-radius:12px;" class="bootstrap btn btn-danger" id="btn5">Export to csv</button>
+                                    </form>
+
                                 </div>
                             </div>
                         

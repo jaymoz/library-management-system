@@ -1,0 +1,45 @@
+{% extends 'app/dashboard_link.html' %}
+{% load static %}
+{% block content %}
+       
+<section  style="margin-top: 100px; margin-bottom:100px;">
+    {% if user.is_authenticated %}
+    <input type="hidden" id="user_id" value=""{{ user.id }}>
+    {% endif %}
+    <div class="u-s-p-b-60">
+        <div class="section__content">
+            <div class="dash">
+                <div class="container">
+                    <div class="row">
+                        {% include 'app/dash-include.html' %}                    
+                        <div class="col-lg-9 col-md-12">
+                            <div class="dash__box dash__box--shadow dash__box--radius dash__box--bg-white">
+                                <div class="dash__pad-2">
+                                    <h1 class="dash__h1 u-s-m-b-14">Contact Administration</h1>
+                                    <div class="u-s-m-b-30" id="message_">
+
+                                        <label class="gl-label" for="address-street"> Message</label>
+                                        <textarea readonly class= 'text-area text-area--primary-style' style="width:100%" rows="20" cols="100" name="" id="message_body"></textarea>
+                                       
+                                </div>
+                                    <form class="dash-address-manipulation" id="send-message-form">
+
+                                    <div class="u-s-m-b-30">
+                                        <textarea class= 'text-area text-area--primary-style'  style="width:100%" rows="5" cols="100" name="" id="input_message"></textarea>
+                                       
+                                </div>
+
+                                        <input id="chat-message-submit" class="btn btn--e-brand-b-2" value="send" type="submit">
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    </section>
+
+
+{% endblock %}

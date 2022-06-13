@@ -1,3 +1,4 @@
+from urllib import response
 from django.utils import timezone
 from django.shortcuts import get_object_or_404, render
 from django.contrib.auth.decorators import login_required
@@ -10,6 +11,8 @@ from .forms import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+import csv
+from django.http import JsonResponse, HttpResponse
 
 def check_if_order_has_expired():
 	all_orders = IssuedBooks.objects.filter(expiry_date__lte=datetime.now(timezone.utc))
@@ -294,6 +297,7 @@ def order_detail(request, pk):
 			if order_stat == "accepted":
 				single_order.status = "accepted"
 				single_order.issued = True
+				single_order.issued_date = datetime.now()
 				single_order.expiry_date  = datetime.now() + timedelta(days=14)
 				single_order.save()
 				messages.success(request, "Order was successfully accepted")
@@ -631,6 +635,26 @@ def dash_all_issued_books(request):
 		except EmptyPage:
 			paginated_queryset = paginator.page(paginator.num_pages)
 		context.update({'queryset':paginated_queryset})
+	
+	if request.method == "POST":
+		result = None
+		if paginated_queryset is not None:
+			result = paginated_queryset
+		else:
+			result = orders
+		response = HttpResponse(content_type="text/pdf")
+		response['Content-Disposition']='attachment; filename=All-Issued-Books' + \
+			str(datetime.now())+'.pdf'
+		writer = csv.writer(response)
+			
+		writer.writerow(['user','status','books','issued','ordered date','issued date','expiry date'])
+		for res in result:
+			final = []
+			for each in res.books.all():
+				final.append(str(each.quantity) + "x " + each.book.name)
+			writer.writerow([res.user,res.status,final,res.issued,res.ordered_date, res.issued_date, res.expiry_date])
+		return response
+
 	return render(request, "app/all-issued-books.html", context)
 
 @login_required(login_url="/login")
@@ -829,7 +853,13 @@ def register_user(request):
 			if user_form.is_valid():
 				try:
 					user_form.save()
+					thread_user = user_form.cleaned_data.get('username')
+					res_user = get_object_or_404(User, username=thread_user)
 					messages.success(request, "Registration was succesfully completed. Kindly Login")
+					qs = User.objects.filter(is_superuser=True)
+					superuser = qs[0]
+					thread = Thread.objects.create(first_person=superuser, second_person=res_user)
+					thread.save()
 					return redirect("login")
 				except Exception as e:
 					messages.error(request,"" + type(e))
@@ -837,3 +867,10 @@ def register_user(request):
 	context = {'user_form':user_form}
 	return render(request, "app/register.html", context)
 
+@login_required(login_url="/login")
+def message(request):
+    threads = Thread.objects.by_user(user=request.user).prefetch_related('chatmessage_thread').order_by('timestamp')
+    context = {
+        'Threads': threads
+    }
+    return render(request, 'app/message_fixed.html', context)

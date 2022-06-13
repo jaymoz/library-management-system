@@ -29,4 +29,5 @@ urlpatterns = [
     path("cancel-order/<str:pk>/", views.cancel_order, name="cancel-order"),
     path("profile", views.profile, name="profile"), 
     path('update-profile/',views.update_profile, name='update-profile'),
+    path('contact-admin/', views.message, name='message')
 ]
